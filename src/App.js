@@ -96,7 +96,7 @@ class GoogleMapsContainer extends React.Component {
           <span>{this.state.activeMarker.title}</span>
         </InfoWindow>
 
-        <Filter />
+        <Filter {...this.state} places={this.places} />
       </Map>
     );
   }
