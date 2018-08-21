@@ -30,12 +30,13 @@ class GoogleMapsContainer extends React.Component {
           title: 'Carioca Mall', 
           name: 'Carioca Mall', 
           position: { lat: -22.8504633, lng: -43.3110845 },
-          id: '4c49891420ab1b8dec01e516'
+          fourSquareID: '4bb667511344b713c6739d04'
         },
         {
           title: 'VdC Bus Station', 
           name: 'VdC Bus Station', 
-          position: { lat: -22.8533234, lng: -43.313545 }
+          position: { lat: -22.8533234, lng: -43.313545 },
+          fourSquareID: '53878771498e2936ab8b9df2'
         },
         {
           title: 'VdC Subway Station', 
@@ -46,17 +47,20 @@ class GoogleMapsContainer extends React.Component {
         {
           title: 'Unidos - Small Supermarket', 
           name: 'Unidos - Small Supermarket', 
-          position: { lat: -22.8544703, lng: -43.31541745 }
+          position: { lat: -22.8544703, lng: -43.31541745 },
+          fourSquareID: '50521bdce4b0cccd4f20fb51'
         },
         {
           title: 'Mundial - Big Supermarket', 
           name: 'Mundial - Big Supermarket', 
-          position: { lat: -22.8550179, lng: -43.3240954 }
+          position: { lat: -22.8550179, lng: -43.3240954 },
+          fourSquareID: '4e22f213d22d0a3f5a0714d1'
         },
         {
           title: 'Sesi - Swimming Pool', 
           name: 'Sesi - Swimming Pool', 
-          position: { lat: -22.8516601, lng: -43.3193636 }
+          position: { lat: -22.8516601, lng: -43.3193636 },
+          fourSquareID: '4e1f72ebd22d0a3f59e3a28d'
         }
       ]
     }
@@ -81,41 +85,45 @@ class GoogleMapsContainer extends React.Component {
 
   //should loop through places array and add info about each place
   //info to add: best photo,
-    fetch(
-      // 'https://api.foursquare.com/v2/venues/search?client_id='+
-      // 'LHI4MJ1DNW0OI1AQHGPMW4NR2AXIRROID5BPF4W0HJCA2I1D&client_secret=EIV3JIANCMC0IZ0NEDKF0BM1G2UQWGADOUE4U1OMHMOJUSWJ'+
-      // '&v=20180323&limit=10&ll=-22.8544633,-43.3160845&query=metro'
-      'https://api.foursquare.com/v2/venues/4c49891420ab1b8dec01e516?client_id='+
-      'LHI4MJ1DNW0OI1AQHGPMW4NR2AXIRROID5BPF4W0HJCA2I1D&client_secret=EIV3JIANCMC0IZ0NEDKF0BM1G2UQWGADOUE4U1OMHMOJUSWJ'+
-      '&v=20180323'
+    this.state.places.map( (place, key) => (
+      fetch(
+          // 'https://api.foursquare.com/v2/venues/search?client_id='+
+          // 'LHI4MJ1DNW0OI1AQHGPMW4NR2AXIRROID5BPF4W0HJCA2I1D&client_secret=EIV3JIANCMC0IZ0NEDKF0BM1G2UQWGADOUE4U1OMHMOJUSWJ'+
+          // '&v=20180323&limit=10&ll=-22.8544633,-43.3160845&query=sesi'
+          'https://api.foursquare.com/v2/venues/'+place.fourSquareID+'?client_id='+
+          'LHI4MJ1DNW0OI1AQHGPMW4NR2AXIRROID5BPF4W0HJCA2I1D&client_secret=EIV3JIANCMC0IZ0NEDKF0BM1G2UQWGADOUE4U1OMHMOJUSWJ'+
+          '&v=20180323'
+        )
+        .then(
+           res => {
+            let results = res.json(); return results}
+        )
+        .then(
+          data => {
+            let mapData = data; console.log(mapData); 
+            this.setState({ 
+              "places": update(this.state.places, { 
+                  [key]: { 
+                    $set: {...this.state.places[key],
+                      'first tip' : data.response.venue.tips.groups[0].items[0].text,
+                      'Status': data.response.venue.popular.richStatus.text,
+                      'Phone Number': data.response.venue.contact.formattedPhone
+                    } 
+                  }
+                }) 
+            })
+            console.log("First tip: "+data.response.venue.tips.groups[0].items[0].text); 
+            console.log("Status: "+data.response.venue.popular.richStatus.text);
+            console.log("Phone Number: "+data.response.venue.contact.formattedPhone); 
+            return mapData
+          }
+        )
+        .catch(
+            error => console.log(error)
+        )
+      )
     )
-    .then(
-       res => {
-        let results = res.json(); console.log(results); return results}
-    )
-    .then(
-      data => {
-        let mapData = data; console.log(mapData); 
-        this.setState({ 
-          "places": update(this.state.places, { 
-              [0]: { 
-                $set: {...this.state.places[0],
-                  'first tip' : data.response.venue.tips.groups[0].items[0].text,
-                  'Status': data.response.venue.popular.richStatus.text,
-                  'Phone Number': data.response.venue.contact.formattedPhone
-                } 
-              }
-            }) 
-        })
-        console.log("First tip: "+data.response.venue.tips.groups[0].items[0].text); 
-        console.log("Status: "+data.response.venue.popular.richStatus.text);
-        console.log("Phone Number: "+data.response.venue.contact.formattedPhone); 
-        return mapData
-      }
-    )
-    .catch(
-        error => console.log(error)
-    );
+    
     // fetch('https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=AIzaSyAMSLE6fujNqNvj7opx7S3URDb9z_w_HyI')
     // .then(res => res.json() )
     // .then(res => console.log(res) )
