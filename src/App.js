@@ -23,17 +23,41 @@ class GoogleMapsContainer extends React.Component {
     this.state = {
       showingInfoWindow: false,
       activeMarker: {},
-      selectedPlace: {}
+      selectedPlace: {},
+      places: [
+        {
+          title: 'Carioca Mall', 
+          name: 'Carioca Mall', 
+          position: { lat: -22.8504633, lng: -43.3110845 }
+        },
+        {
+          title: 'VdC Bus Station', 
+          name: 'VdC Bus Station', 
+          position: { lat: -22.8533234, lng: -43.313545 }
+        },
+        {
+          title: 'VdC Subway Station', 
+          name: 'VdC Subway Station', 
+          position: { lat: -22.8540158, lng: -43.3131266 }, 
+          fourSquareID: '4c49891420ab1b8dec01e516'
+        },
+        {
+          title: 'Unidos - Small Supermarket', 
+          name: 'Unidos - Small Supermarket', 
+          position: { lat: -22.8544703, lng: -43.31541745 }
+        },
+        {
+          title: 'Mundial - Big Supermarket', 
+          name: 'Mundial - Big Supermarket', 
+          position: { lat: -22.8550179, lng: -43.3240954 }
+        },
+        {
+          title: 'Sesi - Swimming Pool', 
+          name: 'Sesi - Swimming Pool', 
+          position: { lat: -22.8516601, lng: -43.3193636 }
+        }
+      ]
     }
-
-    this.places = [
-    {title: 'Carioca Mall', name: 'Carioca Mall', position: { lat: -22.8504633, lng: -43.3110845 }},
-    {title: 'VdC Bus Station', name: 'VdC Bus Station', position: { lat: -22.8533234, lng: -43.313545 }},
-    {title: 'VdC Subway Station', name: 'VdC Subway Station', position: { lat: -22.8540158, lng: -43.3131266 }},
-    {title: 'Unidos - Small Supermarket', name: 'Unidos - Small Supermarket', position: { lat: -22.8544703, lng: -43.31541745 }},
-    {title: 'Mundial - Big Supermarket', name: 'Mundial - Big Supermarket', position: { lat: -22.8550179, lng: -43.3240954 }},
-    {title: 'Sesi - Swimming Pool', name: 'Sesi - Swimming Pool', position: { lat: -22.8516601, lng: -43.3193636 }}
-    ]
     // binding this to event-handler functions
     this.onMarkerClick = this.onMarkerClick.bind(this);
    // this.onMapClick = this.onMapClick.bind(this);
@@ -51,16 +75,31 @@ class GoogleMapsContainer extends React.Component {
   // console.log(this.children); //undefined
   // console.log(React.children);
   // console.log(this.props); //loaded: true, google -> maps
+
+
+  //should loop through places array and add info about each place
+  //info to add: best photo,
     fetch(
-      'https://api.foursquare.com/v2/venues/search?client_id='+
+      // 'https://api.foursquare.com/v2/venues/search?client_id='+
+      // 'LHI4MJ1DNW0OI1AQHGPMW4NR2AXIRROID5BPF4W0HJCA2I1D&client_secret=EIV3JIANCMC0IZ0NEDKF0BM1G2UQWGADOUE4U1OMHMOJUSWJ'+
+      // '&v=20180323&limit=10&ll=-22.8544633,-43.3160845&query=metro'
+      'https://api.foursquare.com/v2/venues/4c49891420ab1b8dec01e516?client_id='+
       'LHI4MJ1DNW0OI1AQHGPMW4NR2AXIRROID5BPF4W0HJCA2I1D&client_secret=EIV3JIANCMC0IZ0NEDKF0BM1G2UQWGADOUE4U1OMHMOJUSWJ'+
-      '&v=20180323&limit=10&ll=-22.8544633,-43.3160845&query=metro'
+      '&v=20180323'
     )
     .then(
-       res => {let results = res.json(); console.log(results); return results}
+       res => {
+        let results = res.json(); console.log(results); return results}
     )
     .then(
-      data => {let mapData = data; console.log(mapData); return mapData}
+      data => {
+        let mapData = data; console.log(mapData); 
+        this.setState({  })
+        console.log("First tip: "+data.response.venue.tips.groups[0].items[0].text); 
+        console.log("Status: "+data.response.venue.popular.richStatus.text);
+        console.log("Phone Number: "+data.response.venue.contact.formattedPhone); 
+        return mapData
+      }
     )
     .catch(
         error => console.log(error)
@@ -98,7 +137,7 @@ class GoogleMapsContainer extends React.Component {
         initialCenter = {{ lat: -22.8544633, lng: -43.3160845 }}
       >
 
-      { this.places.map (
+      { this.state.places.map (
         (place, key) => (
             <Marker key={key}
               onClick = { this.onMarkerClick }
@@ -119,7 +158,7 @@ class GoogleMapsContainer extends React.Component {
           <span>{this.state.activeMarker.title}</span>
         </InfoWindow>
 
-        <Filter {...this.state} places={this.places} togglePlace={(key) => this.toggleMarker(key)}/>
+        <Filter {...this.state} togglePlace={(key) => this.toggleMarker(key)}/>
       </Map>
     );
   }
