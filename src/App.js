@@ -24,6 +24,14 @@ class GoogleMapsContainer extends React.Component {
       activeMarker: {},
       selectedPlace: {}
     }
+
+    this.places = [
+    {title: 'Carioca Mall', name: 'Carioca Mall', position: { lat: -22.8504633, lng: -43.3110845 }},
+    {title: 'VdC Bus Station', name: 'VdC Bus Station', position: { lat: -22.8533234, lng: -43.313545 }},
+    {title: 'VdC Subway Station', name: 'VdC Subway Station', position: { lat: -22.8540158, lng: -43.3131266 }},
+    {title: 'Unidos - Small Supermarket', name: 'Unidos - Small Supermarket', position: { lat: -22.8544703, lng: -43.31541745 }},
+    {title: 'Mundial - Big Supermarket', name: 'Mundial - Big Supermarket', position: { lat: -22.8550179, lng: -43.3240954 }}
+    ]
     // binding this to event-handler functions
     this.onMarkerClick = this.onMarkerClick.bind(this);
     this.onMapClick = this.onMapClick.bind(this);
@@ -41,9 +49,6 @@ class GoogleMapsContainer extends React.Component {
     .then(res => console.log(res) )
   }
 
-  //carioca mall
-  // -22.8504633
-  //-43.3110845,15
   onMapClick = (props) => {
     if (this.state.showingInfoWindow) {
       this.setState({
@@ -69,40 +74,18 @@ class GoogleMapsContainer extends React.Component {
         initialCenter = {{ lat: -22.8544633, lng: -43.3160845 }}
       >
 
-        <Marker
-          onClick = { this.onMarkerClick }
-          title = { 'Carioca Mall' }
-          position = {{ lat: -22.8504633, lng: -43.3110845 }}
-          name = { 'Carioca Mall' }
-        />
-
-        <Marker
-          onClick = { this.onMarkerClick }
-          title = { 'VdC Bus Station' }
-          position = {{ lat: -22.8533234, lng: -43.313545 }}
-          name = { 'VdC Bus Station' }
-        />
-
-        <Marker
-          onClick = { this.onMarkerClick }
-          title = { 'VdC Subway Station' }
-          position = {{ lat: -22.8540158, lng: -43.3131266 }}
-          name = { 'VdC Subway Station' }
-        />
-
-        <Marker
-          onClick = { this.onMarkerClick }
-          title = { 'Unidos - Small Supermarket' }
-          position = {{ lat: -22.8544703, lng: -43.31541745 }}
-          name = { 'Unidos - Small Supermarket' }
-        />
-
-        <Marker
-          onClick = { this.onMarkerClick }
-          title = { 'Mundial - Big Supermarket' }
-          position = {{ lat: -22.8550179, lng: -43.3240954 }}
-          name = { 'Mundial - Big Supermarket' }
-        />
+      { this.places.map (
+        (place, key) => (
+            <Marker key={key}
+              onClick = { this.onMarkerClick }
+              title = { place.title }
+              position = { place.position }
+              name = { place.name }
+            />
+          )
+        )
+        
+      }      
 
         <InfoWindow
           marker = { this.state.activeMarker }
