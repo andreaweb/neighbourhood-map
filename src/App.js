@@ -1,6 +1,7 @@
 import React from 'react';
 import { GoogleApiWrapper, InfoWindow, Map, Marker } from 'google-maps-react';
 //import * as MapsAPI from './Map.js';
+import {Filter} from './Filter';
 import './App.css';
 //import google from "https://maps.googleapis.com/maps/api/js?key=AIzaSyAMSLE6fujNqNvj7opx7S3URDb9z_w_HyI&callback=initMap";
 
@@ -94,6 +95,8 @@ class GoogleMapsContainer extends React.Component {
         >
           <span>{this.state.activeMarker.title}</span>
         </InfoWindow>
+
+        <Filter />
       </Map>
     );
   }
