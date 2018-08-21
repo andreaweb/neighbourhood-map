@@ -34,12 +34,11 @@
 //lat -22.8558216
 //long -43.315785
 export const initMap = () => {
-  const proxyurl = "https://cors-anywhere.herokuapp.com/";
   const googleURL = "https://maps.googleapis.com/maps/api/js?key=AIzaSyAMSLE6fujNqNvj7opx7S3URDb9z_w_HyI"
     +"language=en&placeid=ChIJe679Rrl8mQARqtBcHQR1F0o&key=AIzaSyAMSLE6fujNqNvj7opx7S3URDb9z_w_HyI&callback=initMap";
-  fetch(proxyurl + googleURL)
-  .then(res => {let sup = res.json(); console.log(res.json); return sup})
-  .then(data => {let mapData = data; console.log(data); return mapData})
+  fetch(googleURL)
+  .then(res => {let results = res.json(); console.log('hm'); return results})
+  .then(data => {let mapData = data; console.log('hi'); return mapData})
   .catch(error => console.log(error))
 
   // const map = new google.maps.Map(document.getElementById('map'), {

@@ -35,6 +35,15 @@ class GoogleMapsContainer extends React.Component {
       showingInfoWindow: true
     });
   }
+  componentDidMount(){
+    fetch('https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=AIzaSyAMSLE6fujNqNvj7opx7S3URDb9z_w_HyI')
+    .then(res => res.json() )
+    .then(res => console.log(res) )
+  }
+
+  //carioca mall
+  // -22.8504633
+  //-43.3110845,15
   onMapClick = (props) => {
     if (this.state.showingInfoWindow) {
       this.setState({
@@ -45,8 +54,8 @@ class GoogleMapsContainer extends React.Component {
   }
   render() {
     const style = {
-      width: '50vw',
-      height: '75vh',
+      width: '100vw',
+      height: '100vh',
       'marginLeft': 'auto',
       'marginRight': 'auto'
     }
@@ -56,21 +65,50 @@ class GoogleMapsContainer extends React.Component {
         style = { style }
         google = { this.props.google }
         onClick = { this.onMapClick }
-        zoom = { 14 }
-        initialCenter = {{ lat: -22.8558216, lng: -43.315785 }}
+        zoom = { 16 }
+        initialCenter = {{ lat: -22.8544633, lng: -43.3160845 }}
       >
 
         <Marker
           onClick = { this.onMarkerClick }
-          title = { 'Changing Colors Garage' }
-          position = {{ lat: -22.8558216, lng: -43.315785 }}
-          name = { 'Changing Colors Garage' }
+          title = { 'Carioca Mall' }
+          position = {{ lat: -22.8504633, lng: -43.3110845 }}
+          name = { 'Carioca Mall' }
         />
+
+        <Marker
+          onClick = { this.onMarkerClick }
+          title = { 'VdC Bus Station' }
+          position = {{ lat: -22.8533234, lng: -43.313545 }}
+          name = { 'VdC Bus Station' }
+        />
+
+        <Marker
+          onClick = { this.onMarkerClick }
+          title = { 'VdC Subway Station' }
+          position = {{ lat: -22.8540158, lng: -43.3131266 }}
+          name = { 'VdC Subway Station' }
+        />
+
+        <Marker
+          onClick = { this.onMarkerClick }
+          title = { 'Unidos - Small Supermarket' }
+          position = {{ lat: -22.8544703, lng: -43.31541745 }}
+          name = { 'Unidos - Small Supermarket' }
+        />
+
+        <Marker
+          onClick = { this.onMarkerClick }
+          title = { 'Mundial - Big Supermarket' }
+          position = {{ lat: -22.8550179, lng: -43.3240954 }}
+          name = { 'Mundial - Big Supermarket' }
+        />
+
         <InfoWindow
           marker = { this.state.activeMarker }
           visible = { this.state.showingInfoWindow }
         >
-        <span>Add info here</span>
+          <span>{this.state.activeMarker.title}</span>
         </InfoWindow>
       </Map>
     );
