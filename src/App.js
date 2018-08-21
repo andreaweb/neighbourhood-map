@@ -39,6 +39,7 @@ class GoogleMapsContainer extends React.Component {
    // this.onMapClick = this.onMapClick.bind(this);
   }
   onMarkerClick = (props, marker, e) => {
+    console.log(props, marker, e)
     this.setState({
       selectedPlace: props,
       activeMarker: marker,
@@ -46,9 +47,27 @@ class GoogleMapsContainer extends React.Component {
     });
   }
   componentDidMount(){
-    fetch('https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=AIzaSyAMSLE6fujNqNvj7opx7S3URDb9z_w_HyI')
-    .then(res => res.json() )
-    .then(res => console.log(res) )
+    //access to array, containing <div>test</div><div>test</div>
+  // console.log(this.children); //undefined
+  // console.log(React.children);
+  // console.log(this.props); //loaded: true, google -> maps
+    fetch(
+      'https://api.foursquare.com/v2/venues/search?client_id='+
+      'LHI4MJ1DNW0OI1AQHGPMW4NR2AXIRROID5BPF4W0HJCA2I1D&client_secret=EIV3JIANCMC0IZ0NEDKF0BM1G2UQWGADOUE4U1OMHMOJUSWJ'+
+      '&v=20180323&limit=10&ll=-22.8544633,-43.3160845&query=metro'
+    )
+    .then(
+       res => {let results = res.json(); console.log(results); return results}
+    )
+    .then(
+      data => {let mapData = data; console.log(mapData); return mapData}
+    )
+    .catch(
+        error => console.log(error)
+    );
+    // fetch('https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=AIzaSyAMSLE6fujNqNvj7opx7S3URDb9z_w_HyI')
+    // .then(res => res.json() )
+    // .then(res => console.log(res) )
   }
 
   onMapClick = (props) => {
@@ -58,6 +77,9 @@ class GoogleMapsContainer extends React.Component {
         activeMarker: null
       });
     }
+  }
+  toggleMarker = (key) => {
+    //should toggle visible = true or false in Marker with same key... but this doesn't seem allowed in React
   }
   render() {
     const style = {
@@ -83,6 +105,7 @@ class GoogleMapsContainer extends React.Component {
               title = { place.title }
               position = { place.position }
               name = { place.name }
+              visible={ true}
             />
           )
         )
@@ -96,7 +119,7 @@ class GoogleMapsContainer extends React.Component {
           <span>{this.state.activeMarker.title}</span>
         </InfoWindow>
 
-        <Filter {...this.state} places={this.places} />
+        <Filter {...this.state} places={this.places} togglePlace={(key) => this.toggleMarker(key)}/>
       </Map>
     );
   }
