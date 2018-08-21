@@ -30,7 +30,8 @@ class GoogleMapsContainer extends React.Component {
     {title: 'VdC Bus Station', name: 'VdC Bus Station', position: { lat: -22.8533234, lng: -43.313545 }},
     {title: 'VdC Subway Station', name: 'VdC Subway Station', position: { lat: -22.8540158, lng: -43.3131266 }},
     {title: 'Unidos - Small Supermarket', name: 'Unidos - Small Supermarket', position: { lat: -22.8544703, lng: -43.31541745 }},
-    {title: 'Mundial - Big Supermarket', name: 'Mundial - Big Supermarket', position: { lat: -22.8550179, lng: -43.3240954 }}
+    {title: 'Mundial - Big Supermarket', name: 'Mundial - Big Supermarket', position: { lat: -22.8550179, lng: -43.3240954 }},
+    {title: 'Sesi - Swimming Pool', name: 'Sesi - Swimming Pool', position: { lat: -22.8516601, lng: -43.3193636 }}
     ]
     // binding this to event-handler functions
     this.onMarkerClick = this.onMarkerClick.bind(this);
