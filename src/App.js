@@ -35,7 +35,7 @@ class GoogleMapsContainer extends React.Component {
     ]
     // binding this to event-handler functions
     this.onMarkerClick = this.onMarkerClick.bind(this);
-    this.onMapClick = this.onMapClick.bind(this);
+   // this.onMapClick = this.onMapClick.bind(this);
   }
   onMarkerClick = (props, marker, e) => {
     this.setState({
@@ -70,7 +70,7 @@ class GoogleMapsContainer extends React.Component {
         xs = { 12 }
         style = { style }
         google = { this.props.google }
-        onClick = { this.onMapClick }
+      //  onClick = { this.onMapClick }
         zoom = { 16 }
         initialCenter = {{ lat: -22.8544633, lng: -43.3160845 }}
       >
