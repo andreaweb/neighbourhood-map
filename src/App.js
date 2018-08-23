@@ -91,7 +91,7 @@ class GoogleMapsContainer extends React.Component {
           // 'LHI4MJ1DNW0OI1AQHGPMW4NR2AXIRROID5BPF4W0HJCA2I1D&client_secret=EIV3JIANCMC0IZ0NEDKF0BM1G2UQWGADOUE4U1OMHMOJUSWJ'+
           // '&v=20180323&limit=10&ll=-22.8544633,-43.3160845&query=sesi'
           'https://api.foursquare.com/v2/venues/'+place.fourSquareID+'?client_id='+
-          'LHI4MJ1DNW0OI1AQHGPMW4NR2AXIRROID5BPF4W0HJCA2I1D&client_secret=EIV3JIANCMC0IZ0NEDKF0BM1G2UQWGADOUE4U1OMHMOJUSWJ'+
+          'LHI4MJ1DNW0OI1AQHGPMW4NR2AXIRROID5BPF4W0HJCA2I1D&client_secret=00KOS3HDDFCS2PG3FCG3BL5SG00BPHIFFT5A4QWIRQMSP0YR'+
           '&v=20180323'
         )
         .then(
@@ -100,14 +100,14 @@ class GoogleMapsContainer extends React.Component {
         )
         .then(
           data => {
-            let mapData = data; console.log(mapData); 
+            let mapData = data; console.log(key, place.title); 
             this.setState({ 
               "places": update(this.state.places, { 
                   [key]: { 
                     $set: {...this.state.places[key],
-                      'first tip' : data.response.venue.tips.groups[0].items[0].text,
-                      'Status': data.response.venue.popular.richStatus.text,
-                      'Phone Number': data.response.venue.contact.formattedPhone
+                      'firstTip' : data.response.venue.tips.groups[0].items[0].text,
+                      'status': data.response.venue.popular.richStatus.text,
+                      'phoneNumber': data.response.venue.contact.formattedPhone
                     } 
                   }
                 }) 
@@ -157,17 +157,20 @@ class GoogleMapsContainer extends React.Component {
         initialCenter = {{ lat: -22.8544633, lng: -43.3160845 }}
       >
 
-      { this.state.places.map (
+      { this.state.places[1].firstTip || this.state.places[2].firstTip ? this.state.places.map (
         (place, key) => (
             <Marker key={key}
               onClick = { this.onMarkerClick }
               title = { place.title }
               position = { place.position }
               name = { place.name }
-              visible={ true}
+              visible={ true }
+              firstTip = { place.firstTip ? place.firstTip : "Nenhuma dica disponível." }
+              phoneNumber = { place.phoneNumber ? place.phoneNumber : "Nenhum telefone informado." }
+              status = { place.status ? place.status : "Sem status." }
             />
-          )
-        )
+          ) 
+        ) : null
         
       }      
 
@@ -175,7 +178,22 @@ class GoogleMapsContainer extends React.Component {
           marker = { this.state.activeMarker }
           visible = { this.state.showingInfoWindow }
         >
-          <span>{this.state.activeMarker.title}</span>
+          <h3>{this.state.activeMarker.title}</h3>
+          <p>
+            {
+              this.state.activeMarker.firstTip
+              ? "Dica: " + this.state.activeMarker.firstTip
+              : this.state.activeMarker.firstTip
+            }
+          </p>
+          <p>{this.state.activeMarker.status}</p>
+          <p>
+            {
+              this.state.activeMarker.phoneNumber 
+              ? "Contato: " + this.state.activeMarker.phoneNumber 
+              : this.state.activeMarker.phoneNumber
+            }
+          </p>
         </InfoWindow>
 
         <Filter {...this.state} togglePlace={(key) => this.toggleMarker(key)}/>

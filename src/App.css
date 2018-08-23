@@ -13,6 +13,9 @@
   padding: 20px;
   color: white;
 }
+.gm-style .gm-style-iw{
+    max-width: 300px;
+}
 
 .App-title {
   font-size: 1.5em;
