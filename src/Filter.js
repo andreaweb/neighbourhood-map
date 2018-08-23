@@ -9,17 +9,18 @@ export class Filter extends React.Component {
 				style={{ height: '150px', background: 'black', position: 'absolute', bottom: '0px', width: '100vw',
 						 color: 'white',     display: 'flex'}}
 			>
+			<ul>
 			{ this.props.places ?
 				this.props.places.map(
 					(place, key) => (
-						<fieldset key={key}>
-							<input type="checkbox" checked onChange={(key) => this.props.togglePlace(key)} key={key} id={key} />
-							<label htmlFor={key}> {place.title} </label>
-						</fieldset>
+							<li key={key} onClick={(key) => this.props.togglePlace(key)} key={key} id={key}>
+							{place.title}
+							</li>
 					)
 				)
 			  : null
 			}
+			</ul>
 			</div>
 		)
 	}
