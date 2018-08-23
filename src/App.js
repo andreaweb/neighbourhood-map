@@ -2,58 +2,76 @@ import React from 'react';
 import { GoogleApiWrapper, InfoWindow, Map, Marker } from 'google-maps-react';
 //import * as MapsAPI from './Map.js';
 import update from 'immutability-helper';
+import axios from 'axios';
 import {Filter} from './Filter';
 import './App.css';
 
 const APIKEY = "AIzaSyAMSLE6fujNqNvj7opx7S3URDb9z_w_HyI";
 
+const config = {
+  headers: {'Authorization': 'Bearer 4ttyzAYKbHywtXGvfj9gqk0suytrz7YM0-d7BfHJOKFAYgb2BAPzd_-o-JWIFiIm3azIrmRkX5pvZ2wGd3fLzb36YP9BJIHxVjkGvgsVSBpsoofvy35JMCEDXsF-W3Yx'},
+  params: {
+    term: 'tacos',
+    location: 'main 123st'
+  }
+};
+
 class GoogleMapsContainer extends React.Component {
   constructor(props) {
     super(props);
+    this.apiKey = '4ttyzAYKbHywtXGvfj9gqk0suytrz7YM0-d7BfHJOKFAYgb2BAPzd_-o-JWIFiIm3azIrmRkX5pvZ2wGd3fLzb36YP9BJIHxVjkGvgsVSBpsoofvy35JMCEDXsF-W3Yx'; //yelp
     this.state = {
       showingInfoWindow: false,
       activeMarker: {},
       selectedPlace: {},
       places: [
-        {
-          title: 'Carioca Mall', 
-          name: 'Carioca Mall', 
-          position: { lat: -22.8504633, lng: -43.3110845 },
-          fourSquareID: '4bb667511344b713c6739d04'
-        },
-        {
-          title: 'VdC Bus Station', 
-          name: 'VdC Bus Station', 
-          position: { lat: -22.8533234, lng: -43.313545 },
-          fourSquareID: '53878771498e2936ab8b9df2'
-        },
-        {
-          title: 'VdC Subway Station', 
-          name: 'VdC Subway Station', 
-          position: { lat: -22.8540158, lng: -43.3131266 }, 
-          fourSquareID: '4c49891420ab1b8dec01e516'
-        },
-        {
-          title: 'Unidos - Small Supermarket', 
-          name: 'Unidos - Small Supermarket', 
-          position: { lat: -22.8544703, lng: -43.31541745 },
-          fourSquareID: '50521bdce4b0cccd4f20fb51'
-        },
-        {
-          title: 'Mundial - Big Supermarket', 
-          name: 'Mundial - Big Supermarket', 
-          position: { lat: -22.8550179, lng: -43.3240954 },
-          fourSquareID: '4e22f213d22d0a3f5a0714d1'
-        },
-        {
-          title: 'Sesi - Swimming Pool', 
-          name: 'Sesi - Swimming Pool', 
-          position: { lat: -22.8516601, lng: -43.3193636 },
-          fourSquareID: '4e1f72ebd22d0a3f59e3a28d'
-        }
+        // {
+        //   title: 'Carioca Mall', 
+        //   name: 'Carioca Mall', 
+        //   position: { lat: -22.8504633, lng: -43.3110845 },
+        //   fourSquareID: '4bb667511344b713c6739d04'
+        // },
+        // {
+        //   title: 'VdC Bus Station', 
+        //   name: 'VdC Bus Station', 
+        //   position: { lat: -22.8533234, lng: -43.313545 },
+        //   fourSquareID: '53878771498e2936ab8b9df2'
+        // },
+        // {
+        //   title: 'VdC Subway Station', 
+        //   name: 'VdC Subway Station', 
+        //   position: { lat: -22.8540158, lng: -43.3131266 }, 
+        //   fourSquareID: '4c49891420ab1b8dec01e516'
+        // },
+        // {
+        //   title: 'Unidos - Small Supermarket', 
+        //   name: 'Unidos - Small Supermarket', 
+        //   position: { lat: -22.8544703, lng: -43.31541745 },
+        //   fourSquareID: '50521bdce4b0cccd4f20fb51'
+        // },
+        // {
+        //   title: 'Mundial - Big Supermarket', 
+        //   name: 'Mundial - Big Supermarket', 
+        //   position: { lat: -22.8550179, lng: -43.3240954 },
+        //   fourSquareID: '4e22f213d22d0a3f5a0714d1'
+        // },
+        // {
+        //   title: 'Sesi - Swimming Pool', 
+        //   name: 'Sesi - Swimming Pool', 
+        //   position: { lat: -22.8516601, lng: -43.3193636 },
+        //   fourSquareID: '4e1f72ebd22d0a3f59e3a28d'
+        // }
       ]
     }
   }
+
+  // search(parameters){
+  //   return _send({
+  //       url: 'https://api.yelp.com/v3/businesses/search',
+  //       query: parameters,
+  //       bearerToken: this.apiKey
+  //     });
+  // }
 
   onMarkerClick = (props, marker, e) => {
     this.setState({
@@ -62,47 +80,63 @@ class GoogleMapsContainer extends React.Component {
       showingInfoWindow: true
     });
     console.log(marker)
+    console.log(this.state.google.onClick)
   }
 
   componentDidMount(){
-    this.state.places.map( (place, key) => (
+    const proxyUrl = "https://shielded-hamlet-43668.herokuapp.com/";
+    // axios.get('https://api.yelp.com/v3/businesses/search', config)
+    // .then(response => console.log(response))
       fetch(
           // 'https://api.foursquare.com/v2/venues/search?client_id='+
           // 'LHI4MJ1DNW0OI1AQHGPMW4NR2AXIRROID5BPF4W0HJCA2I1D&client_secret=EIV3JIANCMC0IZ0NEDKF0BM1G2UQWGADOUE4U1OMHMOJUSWJ'+
           // '&v=20180323&limit=10&ll=-22.8544633,-43.3160845&query=sesi'
-          'https://api.foursquare.com/v2/venues/'+place.fourSquareID+'?client_id='+
-          'LHI4MJ1DNW0OI1AQHGPMW4NR2AXIRROID5BPF4W0HJCA2I1D&client_secret=00KOS3HDDFCS2PG3FCG3BL5SG00BPHIFFT5A4QWIRQMSP0YR'+
-          '&v=20180323'
+          // 'https://api.foursquare.com/v2/venues/'+place.fourSquareID+'?client_id='+
+          // 'LHI4MJ1DNW0OI1AQHGPMW4NR2AXIRROID5BPF4W0HJCA2I1D&client_secret=00KOS3HDDFCS2PG3FCG3BL5SG00BPHIFFT5A4QWIRQMSP0YR'+
+          // '&v=20180823' { lat: -22.8544633, lng: -43.3160845 } 
+          proxyUrl+
+          'https://api.yelp.com/v3/businesses/search?term=coffee&latitude=-22.8544633&longitude=-43.3160845',
+          { 
+            method: 'GET',
+            headers: { 
+              Authorization: 
+              'Bearer 4ttyzAYKbHywtXGvfj9gqk0suytrz7YM0-d7BfHJOKFAYgb2BAPzd_-o-JWIFiIm3azIrmRkX5pvZ2wGd3fLzb36YP9BJIHxVjkGvgsVSBpsoofvy35JMCEDXsF-W3Yx' 
+            } 
+          }
         )
         .then(
            res => {
-            let results = res.json(); return results}
+            let results = res.json(); console.log(results); return results
+          }
         )
         .then(
           data => {
-            let mapData = data; console.log(key, place.title); 
+            let mapData = data;
+            console.log(data.businesses) 
             this.setState({ 
-              "places": update(this.state.places, { 
-                  [key]: { 
-                    $set: {...this.state.places[key],
-                      'firstTip' : data.response.venue.tips.groups[0].items[0].text,
-                      'status': data.response.venue.popular.richStatus.text,
-                      'phoneNumber': data.response.venue.contact.formattedPhone
-                    } 
-                  }
-                }) 
+              "places": data.businesses
+              // update(this.state.places, { 
+              //     [key]: { 
+              //       $set: {...this.state.places[key],
+              //         'name' : data.businesses[key].is_closed,
+              //         'imageUrl': data.businesses[key].is_closed,
+              //         'isClosed': data.businesses[key].is_closed,
+              //         'price': data.businesses[key].is_closed
+              //       } 
+              //     }
+              // }) 
             })
-            console.log("First tip: "+data.response.venue.tips.groups[0].items[0].text); 
-            console.log("Status: "+data.response.venue.popular.richStatus.text);
-            console.log("Phone Number: "+data.response.venue.contact.formattedPhone); 
+            console.log(); 
+            console.log();
+            console.log(); 
             return mapData
           }
         )
         .catch(
             error => console.log(error)
         )
-      )
-    )
+      
+    
     
     // fetch('https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=AIzaSyAMSLE6fujNqNvj7opx7S3URDb9z_w_HyI')
     // .then(res => res.json() )
@@ -110,10 +144,12 @@ class GoogleMapsContainer extends React.Component {
   }
 
   onMapClick(){
-    console.log(this)
-    console.log(this.center)
-    console.log(this.places)
-    this.center = this.places[0].position
+    // console.log(this)
+    // console.log(this.center)
+    // console.log(this.places)
+    // this.center = this.places[0].position
+    console.log(this.google.maps.event)
+    this.google.maps.event.trigger('click')
     // if (this.state.showingInfoWindow) {
     //   this.setState({
     //     showingInfoWindow: false,
@@ -125,7 +161,7 @@ class GoogleMapsContainer extends React.Component {
   centerMarker = (key) => {
     console.log(key)
     console.log(this.state.places[key])
-    console.log(this.state.activeMarker.length)
+
     this.state.activeMarker ?
       null
     :
@@ -156,8 +192,9 @@ class GoogleMapsContainer extends React.Component {
         xs = { 12 }
         style = { style }
         google = { this.props.google }
-       //onClick = { this.onMapClick }
-        zoom = { 16 }
+       onClick = { this.onMapClick }
+       initialCenter = {{ lat: -22.8544633, lng: -43.3160845 }}
+        zoom = { 10 }
         center = { 
             this.state.activeMarker.position 
             ? this.state.activeMarker.position 
@@ -165,18 +202,18 @@ class GoogleMapsContainer extends React.Component {
           }
       >
 
-        { this.state.places[1].firstTip || this.state.places[2].firstTip 
+        { this.state.places.length > 5 
           ? this.state.places.map (
           (place, key) => (
               <Marker key={key}
                 onClick = { this.onMarkerClick }
                 title = { place.title }
-                position = { place.position }
+                position = {{ lat: place.coordinates.latitude, lng: place.coordinates.longitude }}
                 name = { place.name }
                 visible={ true }
-                firstTip = { place.firstTip ? place.firstTip : "Nenhuma dica disponível." }
-                phoneNumber = { place.phoneNumber ? place.phoneNumber : "Nenhum telefone informado." }
-                status = { place.status ? place.status : "Sem status." }
+                isClosed = { place.isClosed }
+                imageUrl = { place.imageUrl }
+                price = { place.price }
               />
               //this.setState({arr: nextProps.books.filter(book => book.shelf === this.props.bookshelvesValues[this.props.index])})
             ) 
