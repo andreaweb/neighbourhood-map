@@ -10,7 +10,7 @@ export class Filter extends React.Component {
 					this.props.places.map(
 						(place, key) => (
 							<li key={key} 
-								onClick={() => this.props.togglePlace(key)} 
+								onClick={() => this.props.centerPlace(key)} 
 								id={key}
 							>
 								{place.title}

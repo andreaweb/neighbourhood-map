@@ -55,18 +55,13 @@ class GoogleMapsContainer extends React.Component {
     }
   }
 
-  loadMap(){
-    let lat = -22.8544633; 
-    let lng = -43.3160845;
-  }
-
   onMarkerClick = (props, marker, e) => {
     this.setState({
       selectedPlace: props,
       activeMarker: marker,
       showingInfoWindow: true
     });
-    console.log(props, marker, e)
+    console.log(marker)
   }
 
   componentDidMount(){
@@ -127,23 +122,25 @@ class GoogleMapsContainer extends React.Component {
     // }
   }
 
-  toggleMarker = (key) => {
+  centerMarker = (key) => {
     console.log(key)
     console.log(this.state.places[key])
-
-    this.setState({ 
-      "activeMarker": update(this.state.activeMarker, { 
-     //     [key]: { 
-            $set: {
-              //...this.state.activeMarker
-              'position' : this.state.places[key].position
-            } 
-       //   }
-       }) 
-    })
+    console.log(this.state.activeMarker.length)
+    this.state.activeMarker ?
+      null
+    :
+      this.setState({ 
+        "activeMarker": update(this.state.activeMarker, { 
+       //     [key]: { 
+              $set: {
+                //...this.state.activeMarker
+                'position' : this.state.places[key].position
+              } 
+         //   }
+         }) 
+      })
 
     //this.setState({ activeMarker.position: this.state.places[key].position })
-    //should toggle visible = true or false in Marker with same key... but this doesn't seem allowed in React
   }
   
   render() {
@@ -181,6 +178,7 @@ class GoogleMapsContainer extends React.Component {
                 phoneNumber = { place.phoneNumber ? place.phoneNumber : "Nenhum telefone informado." }
                 status = { place.status ? place.status : "Sem status." }
               />
+              //this.setState({arr: nextProps.books.filter(book => book.shelf === this.props.bookshelvesValues[this.props.index])})
             ) 
           ) 
           : null
@@ -207,7 +205,7 @@ class GoogleMapsContainer extends React.Component {
             </p>
           </InfoWindow>
 
-          <Filter {...this.state} togglePlace={(key) => this.toggleMarker(key)}/>
+          <Filter {...this.state} centerPlace={(key) => this.centerMarker(key)}/>
       </Map>
     );
   }
