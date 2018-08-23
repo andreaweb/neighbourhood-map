@@ -4,19 +4,8 @@ import { GoogleApiWrapper, InfoWindow, Map, Marker } from 'google-maps-react';
 import update from 'immutability-helper';
 import {Filter} from './Filter';
 import './App.css';
-//import google from "https://maps.googleapis.com/maps/api/js?key=AIzaSyAMSLE6fujNqNvj7opx7S3URDb9z_w_HyI&callback=initMap";
-
-// const PLACE= {
-//   address: 'Vicente de Carvalho, Rio de Janeiro, Brazil',
-//   position: {
-//     latitude: -22.8558216,
-//     longitude: -43.315785
-//   }
-// }
 
 const APIKEY = "AIzaSyAMSLE6fujNqNvj7opx7S3URDb9z_w_HyI";
-
-//const INITIAL_ZOOM = 14;
 
 class GoogleMapsContainer extends React.Component {
   constructor(props) {
@@ -64,27 +53,23 @@ class GoogleMapsContainer extends React.Component {
         }
       ]
     }
-    // binding this to event-handler functions
-    this.onMarkerClick = this.onMarkerClick.bind(this);
-   // this.onMapClick = this.onMapClick.bind(this);
   }
+
+  loadMap(){
+    let lat = -22.8544633; 
+    let lng = -43.3160845;
+  }
+
   onMarkerClick = (props, marker, e) => {
-    console.log(props, marker, e)
     this.setState({
       selectedPlace: props,
       activeMarker: marker,
       showingInfoWindow: true
     });
+    console.log(props, marker, e)
   }
+
   componentDidMount(){
-    //access to array, containing <div>test</div><div>test</div>
-  // console.log(this.children); //undefined
-  // console.log(React.children);
-  // console.log(this.props); //loaded: true, google -> maps
-
-
-  //should loop through places array and add info about each place
-  //info to add: best photo,
     this.state.places.map( (place, key) => (
       fetch(
           // 'https://api.foursquare.com/v2/venues/search?client_id='+
@@ -129,17 +114,38 @@ class GoogleMapsContainer extends React.Component {
     // .then(res => console.log(res) )
   }
 
-  onMapClick = (props) => {
-    if (this.state.showingInfoWindow) {
-      this.setState({
-        showingInfoWindow: false,
-        activeMarker: null
-      });
-    }
+  onMapClick(){
+    console.log(this)
+    console.log(this.center)
+    console.log(this.places)
+    this.center = this.places[0].position
+    // if (this.state.showingInfoWindow) {
+    //   this.setState({
+    //     showingInfoWindow: false,
+    //     activeMarker: null
+    //   });
+    // }
   }
+
   toggleMarker = (key) => {
+    console.log(key)
+    console.log(this.state.places[key])
+
+    this.setState({ 
+      "activeMarker": update(this.state.activeMarker, { 
+     //     [key]: { 
+            $set: {
+              //...this.state.activeMarker
+              'position' : this.state.places[key].position
+            } 
+       //   }
+       }) 
+    })
+
+    //this.setState({ activeMarker.position: this.state.places[key].position })
     //should toggle visible = true or false in Marker with same key... but this doesn't seem allowed in React
   }
+  
   render() {
     const style = {
       width: '100vw',
@@ -149,54 +155,59 @@ class GoogleMapsContainer extends React.Component {
     }
     return (
       <Map
+        {...this.state}
         xs = { 12 }
         style = { style }
         google = { this.props.google }
-      //  onClick = { this.onMapClick }
+       //onClick = { this.onMapClick }
         zoom = { 16 }
-        initialCenter = {{ lat: -22.8544633, lng: -43.3160845 }}
+        center = { 
+            this.state.activeMarker.position 
+            ? this.state.activeMarker.position 
+            : { lat: -22.8544633, lng: -43.3160845 } 
+          }
       >
 
-      { this.state.places[1].firstTip || this.state.places[2].firstTip ? this.state.places.map (
-        (place, key) => (
-            <Marker key={key}
-              onClick = { this.onMarkerClick }
-              title = { place.title }
-              position = { place.position }
-              name = { place.name }
-              visible={ true }
-              firstTip = { place.firstTip ? place.firstTip : "Nenhuma dica disponível." }
-              phoneNumber = { place.phoneNumber ? place.phoneNumber : "Nenhum telefone informado." }
-              status = { place.status ? place.status : "Sem status." }
-            />
+        { this.state.places[1].firstTip || this.state.places[2].firstTip 
+          ? this.state.places.map (
+          (place, key) => (
+              <Marker key={key}
+                onClick = { this.onMarkerClick }
+                title = { place.title }
+                position = { place.position }
+                name = { place.name }
+                visible={ true }
+                firstTip = { place.firstTip ? place.firstTip : "Nenhuma dica disponível." }
+                phoneNumber = { place.phoneNumber ? place.phoneNumber : "Nenhum telefone informado." }
+                status = { place.status ? place.status : "Sem status." }
+              />
+            ) 
           ) 
-        ) : null
-        
-      }      
+          : null
+        }      
 
-        <InfoWindow
-          marker = { this.state.activeMarker }
-          visible = { this.state.showingInfoWindow }
-        >
-          <h3>{this.state.activeMarker.title}</h3>
-          <p>
-            {
-              this.state.activeMarker.firstTip
-              ? "Dica: " + this.state.activeMarker.firstTip
-              : this.state.activeMarker.firstTip
-            }
-          </p>
-          <p>{this.state.activeMarker.status}</p>
-          <p>
-            {
-              this.state.activeMarker.phoneNumber 
-              ? "Contato: " + this.state.activeMarker.phoneNumber 
-              : this.state.activeMarker.phoneNumber
-            }
-          </p>
-        </InfoWindow>
+          <InfoWindow
+            marker = { this.state.activeMarker }
+            visible = { this.state.showingInfoWindow }>
+            <h3>{this.state.activeMarker.title}</h3>
+            <p>
+              {
+                this.state.activeMarker.firstTip
+                ? "Dica: " + this.state.activeMarker.firstTip
+                : this.state.activeMarker.firstTip
+              }
+            </p>
+            <p>{this.state.activeMarker.status}</p>
+            <p>
+              {
+                this.state.activeMarker.phoneNumber 
+                ? "Contato: " + this.state.activeMarker.phoneNumber 
+                : this.state.activeMarker.phoneNumber
+              }
+            </p>
+          </InfoWindow>
 
-        <Filter {...this.state} togglePlace={(key) => this.toggleMarker(key)}/>
+          <Filter {...this.state} togglePlace={(key) => this.toggleMarker(key)}/>
       </Map>
     );
   }
