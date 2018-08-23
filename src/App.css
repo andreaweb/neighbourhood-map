@@ -1,3 +1,25 @@
+:root{
+  --vibrant-violet: #CE3EFA;
+  --opaque-yellow: #FFE085;
+  --serious-blue: #29457F;
+  --happy-pink: #FF4E97;
+  --river-blue: #1FAACB;
+  --autumn-green: #A6CA4E;
+  --opaque-black: #2D3035;
+  --salmon: #FF8C8C;
+  --midnight-blue: #122740;
+  --opaque-orange: #FFA385;
+  --adorable-blue: #7BD5F2;
+  --cherry: #CC3D60;
+  --purple: #783F84;
+  --sand-yellow: #FDD262;
+  --forest-green: #037F5D;
+  --darkened-salmon: #DF8A8D;
+  --cheerful-pink: #ED2587;
+  --sea-green: #1EB28E;
+  --heavy-grey: #3E5952;
+  --brown: #3D2719;
+};
 .App {
   text-align: center;
 }
@@ -24,7 +46,111 @@
 .App-intro {
   font-size: large;
 }
+li{
+  transition: color 0.25s;
+  cursor: pointer;
+  border: 2px solid transparent;
+  box-sizing: border-box;
+  font-size: inherit;
+  position: relative;
+  vertical-align: middle;
+}
+li:hover{
+  opacity: .8;
+}
+li::before, button::after {
+  box-sizing: inherit;
+  content: '';
+  position: absolute;
+}
+li::before, li::after {
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  -webkit-transform-origin: center;
+          transform-origin: center;
+}
+li::before {
+  border-top: 2px solid currentColor;
+  -webkit-transform: scale3d(0, 1, 1);
+          transform: scale3d(0, 1, 1);
+}
+li:hover::before, li:hover::after {
+  -webkit-transform: scale3d(1, 1, 1);
+          transform: scale3d(1, 1, 1);
+  transition: -webkit-transform 0.5s;
+  transition: transform 0.5s;
+  transition: transform 0.5s, -webkit-transform 0.5s;
+}
 
+li:nth-child(1){
+  background: var(--vibrant-violet) ;
+}
+li:nth-child(2){
+  background: var(--opaque-yellow) ;
+  color: #000;
+}
+li:nth-child(3){
+  background: var(--serious-blue) ;
+}
+li:nth-child(4){
+  background: var(--happy-pink) ;
+}
+li:nth-child(5){
+  background: var(--river-blue) ;
+}
+li:nth-child(6){
+  background: var(--autumn-green) ;
+  color: #000;
+}
+li:nth-child(7){
+  background: var(--opaque-black) ;
+}
+li:nth-child(8){
+  background: var(--salmon) ;
+  color: #000;
+}
+li:nth-child(9){
+  background: var(--midnight-blue) ;
+}
+li:nth-child(10){
+  background: var(--opaque-orange) ;
+  color: #000;
+}
+li:nth-child(11){
+  background: var(--adorable-blue) ;
+  color: #000;
+}
+li:nth-child(12){
+  background: var(--cherry) ;
+}
+li:nth-child(13){
+  background: var(--purple) ;
+}
+li:nth-child(14){
+  background: var(--forest-green) ;
+}
+li:nth-child(15){
+  background: var(--sand-yellow) ;
+  color: #000;
+}
+li:nth-child(16){
+  background: var(--sea-green) ;
+}
+li:nth-child(17){
+  background: var(--cheerful-pink) ;
+}
+li:nth-child(18){
+  background: var(--darkened-salmon) ;
+  color: #000;
+}
+li:nth-child(19){
+  background: var(--heavy-grey) ;
+}
+li:nth-child(20){
+  background: var(--brown) ;
+}
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }

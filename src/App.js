@@ -82,7 +82,7 @@ class GoogleMapsContainer extends React.Component {
   }
 
   componentDidMount(){
-    const proxyUrl = "https://shielded-hamlet-43668.herokuapp.com/";
+    const proxyUrl = "https://shielded-hamlet-43668.herokuapp.com/"; //have to use this to avoid CORS error
     // axios.get('https://api.yelp.com/v3/businesses/search', config)
     // .then(response => console.log(response))
       fetch(
