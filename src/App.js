@@ -79,8 +79,6 @@ class GoogleMapsContainer extends React.Component {
       activeMarker: marker,
       showingInfoWindow: true
     });
-    console.log(marker)
-    console.log(this.state.google.onClick)
   }
 
   componentDidMount(){
@@ -194,7 +192,7 @@ class GoogleMapsContainer extends React.Component {
         google = { this.props.google }
        onClick = { this.onMapClick }
        initialCenter = {{ lat: -22.8544633, lng: -43.3160845 }}
-        zoom = { 10 }
+        zoom = { 13 }
         center = { 
             this.state.activeMarker.position 
             ? this.state.activeMarker.position 
@@ -211,8 +209,10 @@ class GoogleMapsContainer extends React.Component {
                 position = {{ lat: place.coordinates.latitude, lng: place.coordinates.longitude }}
                 name = { place.name }
                 visible={ true }
-                isClosed = { place.isClosed }
-                imageUrl = { place.imageUrl }
+                phone = { place.display_phone }
+                isClosed = { place.is_closed }
+                rating = { place.rating }
+                imageUrl = { place.image_url }
                 price = { place.price }
               />
               //this.setState({arr: nextProps.books.filter(book => book.shelf === this.props.bookshelvesValues[this.props.index])})
@@ -224,21 +224,22 @@ class GoogleMapsContainer extends React.Component {
           <InfoWindow
             marker = { this.state.activeMarker }
             visible = { this.state.showingInfoWindow }>
-            <h3>{this.state.activeMarker.title}</h3>
+            <h3>{this.state.activeMarker.name}</h3>
+            { this.state.activeMarker.imageUrl 
+              ? <img src={this.state.activeMarker.imageUrl} height='50'/>
+              : null
+            }
             <p>
-              {
-                this.state.activeMarker.firstTip
-                ? "Dica: " + this.state.activeMarker.firstTip
-                : this.state.activeMarker.firstTip
-              }
+              Price Range: { this.state.activeMarker.price }
             </p>
-            <p>{this.state.activeMarker.status}</p>
             <p>
-              {
-                this.state.activeMarker.phoneNumber 
-                ? "Contato: " + this.state.activeMarker.phoneNumber 
-                : this.state.activeMarker.phoneNumber
-              }
+              { this.state.activeMarker.isClosed ? "Probably Closed" : "Probably Open" }
+            </p>
+            <p>
+              Rating: {this.state.activeMarker.rating ? this.state.activeMarker.rating : "None available. Go to yelp and be the first to rate!"}
+            </p>
+            <p>
+              Phone Number: { this.state.activeMarker.phone ? this.state.activeMarker.phone : "Not provided"}
             </p>
           </InfoWindow>
 
