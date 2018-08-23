@@ -9,7 +9,7 @@ export class Filter extends React.Component {
 	updateInputValue(evt){
 		console.log(evt.target)
 		this.setState({ query: evt.target.value })
-		this.props.centerPlace(evt.target.value)
+		this.props.updateUserInput(evt.target.value)
 	}
 	render(){
 		return (
@@ -23,7 +23,7 @@ export class Filter extends React.Component {
 							(place, key) => (
 								<li key={key} 
 									className="applyHover"
-									onClick={() => this.props.centerPlace(key)} 
+									onClick={() => {this.props.centerMarker(key)}}
 									style={{'flexBasis': '115px', padding: '10px', boxSizing: 'content-box' }}
 									id={key}
 								>
