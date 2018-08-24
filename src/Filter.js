@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 
-export class Filter extends React.Component {
+export class List extends React.Component {
 	constructor(props){
 		super(props);
 		this.state = { query: ''}

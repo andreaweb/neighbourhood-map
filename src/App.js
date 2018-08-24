@@ -1,9 +1,6 @@
 import React from 'react';
 import { GoogleApiWrapper, InfoWindow, Map, Marker } from 'google-maps-react';
-//import * as MapsAPI from './Map.js';
-import update from 'immutability-helper';
-import axios from 'axios';
-import {Filter} from './Filter';
+import {List} from './List';
 import './App.css';
 import {whyDidYouUpdate} from 'why-did-you-update'
 
@@ -24,6 +21,7 @@ class GoogleMapsContainer extends React.Component {
       places: [],
       currentKey: null,
       markers: [],
+      query: 'coffee',
       listVisible: true
     }
   }
@@ -117,17 +115,13 @@ class GoogleMapsContainer extends React.Component {
         initialCenter = {{ lat: -22.8544633, lng: -43.3160845 }}
         zoom = { 13 }
         disableDefaultUI = {true}
-        center = { 
-          this.state.activeMarker.position 
-          ? this.state.activeMarker.position 
-          : { lat: -22.8544633, lng: -43.3160845 } 
-        }
+        
       >
 
         <h1>
           Find the best 
             <input className='random'
-            value={this.state.query }
+            value={ this.state.query }
             onChange={evt => this.updateQuery(evt.target.value)}
             />
           around Vicente de Carvalho
@@ -169,7 +163,12 @@ class GoogleMapsContainer extends React.Component {
           <div>
             <h3>{this.state.activeMarker.name}</h3>
             { this.state.activeMarker.imageUrl 
-              ? <img src={this.state.activeMarker.imageUrl} height='50'/>
+              ? <img 
+                src={ this.state.activeMarker.imageUrl } 
+                alt=''
+                /*since I am not be able to provide a helpful description, it's better to leave it empty, as just the place name would be repetitive and inconvenient*/ 
+                height='50'
+                />
               : null
             }
             <p>
@@ -184,10 +183,11 @@ class GoogleMapsContainer extends React.Component {
             <p>
               Phone Number: { this.state.activeMarker.phone ? this.state.activeMarker.phone : "Not provided"}
             </p>
+            <span>All places' info are provided by Yelp</span>
             </div>
         </InfoWindow>
 
-        <Filter {...this.state} visible={this.state.listVisible} centerMarker={(key, e) => this.centerMarker(key, e)} />
+        <List {...this.state} visible={this.state.listVisible} centerMarker={(key, e) => this.centerMarker(key, e)} />
       </Map>
     );
   }
