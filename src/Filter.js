@@ -17,7 +17,7 @@ export class Filter extends React.Component {
 									className="applyHover"
 									onClick={(e) => {this.props.centerMarker(key, e)}}
 									style={{'flexBasis': '119px', padding: '10px', boxSizing: 'content-box' }}
-									id={key}
+									id={place.id}
 								>
 									{place.name}
 								</li>

@@ -39,7 +39,7 @@ class GoogleMapsContainer extends React.Component {
 
   centerMarker(key, e){
     const arrMarkers = this.state.markers.find(
-      marker => marker.props.name === e.target.innerText
+      marker => marker.props.id === e.target.id
     )
     e.stopPropagation()
     this.onMarkerClick(arrMarkers.props, arrMarkers.marker, e)
