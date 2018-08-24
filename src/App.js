@@ -116,6 +116,7 @@ class GoogleMapsContainer extends React.Component {
         google = { this.props.google }
         initialCenter = {{ lat: -22.8544633, lng: -43.3160845 }}
         zoom = { 13 }
+        disableDefaultUI = {true}
         center = { 
           this.state.activeMarker.position 
           ? this.state.activeMarker.position 
@@ -126,13 +127,13 @@ class GoogleMapsContainer extends React.Component {
         <h1>
           Find the best 
             <input className='random'
-            value={this.state.query} 
+            value={this.state.query }
             onChange={evt => this.updateQuery(evt.target.value)}
             />
           around Vicente de Carvalho
         </h1>
 
-        <button onClick={this.toggleMenu}>
+        <button className="menu" onClick={this.toggleMenu}>
           <i className="burger fa fa-bars"><span> Menu</span></i>
         </button>
 
