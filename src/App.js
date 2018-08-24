@@ -63,6 +63,7 @@ class GoogleMapsContainer extends React.Component {
 
   toggleMenu = () => {
     this.setState({ listVisible: this.state.listVisible ? false : true })
+    //need to make sure - perhaps not here - that if the burger icon is not showing (above a certain width), listVisible is true
   }
 
   getYelpData(query){
