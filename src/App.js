@@ -13,14 +13,6 @@ if (process.env.NODE_ENV !== 'production') {
 
 const APIKEY = "AIzaSyAMSLE6fujNqNvj7opx7S3URDb9z_w_HyI";
 
-const config = {
-  headers: {'Authorization': 'Bearer 4ttyzAYKbHywtXGvfj9gqk0suytrz7YM0-d7BfHJOKFAYgb2BAPzd_-o-JWIFiIm3azIrmRkX5pvZ2wGd3fLzb36YP9BJIHxVjkGvgsVSBpsoofvy35JMCEDXsF-W3Yx'},
-  params: {
-    term: 'tacos',
-    location: 'main 123st'
-  }
-};
-
 class GoogleMapsContainer extends React.Component {
   constructor(props) {
     super(props);
@@ -82,18 +74,17 @@ class GoogleMapsContainer extends React.Component {
     )
     .then(
        res => {
-        let results = res.json();  return results
+        let results = res.json(); console.log(results); return results
       }
     )
     .then(
       data => {
         let mapData = data;
-        this.setState({ 
-          "places": data.businesses
-        })
-        console.log(); 
-        console.log();
-        console.log(); 
+        if(data.businesses.length > 0){
+          this.setState({ 
+            "places": data.businesses
+          })
+        }
         return mapData
       }
     )
@@ -110,7 +101,10 @@ class GoogleMapsContainer extends React.Component {
   render() {
     const style = {
       width: '100vw',
+      maxWidth: '100vw',
       height: '100vh',
+      maxHeight: '100vh',
+      overflow: 'hidden',
       'marginLeft': 'auto',
       'marginRight': 'auto'
     }

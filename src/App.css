@@ -88,6 +88,7 @@ h1, input{
 }
 button{
   cursor: pointer;
+  display: none;
   color: var(--purple); 
 }
 button:hover{
@@ -98,7 +99,12 @@ h1{
   bottom: 0;
   left: 86px;
   font-size: 1.5em;
-  z-index: 99
+}
+p {
+    margin: 0;
+}
+p:last-child{
+  margin-bottom: 10px
 }
 ul{
   background: black; 
@@ -106,7 +112,6 @@ ul{
   width: calc(143px * 2);
   height: 100vh;
   max-height: 100vh;
-  display: flex;
   flex-wrap: wrap;
   color: white; 
   margin: 0; 
@@ -127,12 +132,10 @@ li{
 li:hover{
   opacity: .8;
 }
-li::before, button::after {
+li::before, li::after {
   box-sizing: inherit;
   content: '';
   position: absolute;
-}
-li::before, li::after {
   top: 0;
   left: 0;
   height: 100%;
@@ -225,12 +228,12 @@ li:nth-child(20){
 
 
 /* Media Queries */
-@media screen and (max-width: 1170px){
+@media screen and (max-width: 1090px){
   h1{
     left: 16px;
   }
 }
-@media screen and (max-width: 1090px){
+@media screen and (max-width: 899px){
   h1{
     width: 300px
   }
@@ -239,18 +242,24 @@ li:nth-child(20){
     padding: 0 14px;
     width: 107px;
   }
+}
+@media screen and (min-width: 601px){
   ul{
+    display: flex !important;
+  }
+}
+@media screen and (max-width: 600px){
+    ul{
     width: 143px;
     left: calc(100% - 143px);
     overflow-x: scroll;
   }
-}
-@media screen and (min-width: 601px){
-  ul{
-    display: block !important;
+  button{
+    display: block;
   }
-}
-@media screen and (max-width: 600px){
+  ul{
+    top: 46px;
+  }
   .burger{
     top: 8px;
     right: 54px;
@@ -258,5 +267,19 @@ li:nth-child(20){
   }
   h1{
     max-width: 100vw
+  }
+}
+@media screen and (max-width: 360px){
+  .burger{
+    right: 52px;
+  }
+  h1{
+    bottom: 63px;
+  }
+  ul{
+    left: calc(100% - 145px);
+  }
+  .gm-style .gm-style-iw{
+    max-width: 200px
   }
 }
