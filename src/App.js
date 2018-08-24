@@ -114,6 +114,11 @@ class GoogleMapsContainer extends React.Component {
         initialCenter = {{ lat: -22.8544633, lng: -43.3160845 }}
         zoom = { 13 }
         disableDefaultUI = {true}
+        center = { 
+          this.state.activeMarker.position 
+          ? this.state.activeMarker.position 
+          : { lat: -22.8544633, lng: -43.3160845 } 
+        }
         role="application"
       >
 
