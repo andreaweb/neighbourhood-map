@@ -50,7 +50,6 @@ class GoogleMapsContainer extends React.Component {
     )
     e.stopPropagation()
     this.onMarkerClick(arrMarkers.props, arrMarkers.marker, e)
-    this.setState({currentKey: key, event: e})
   }
 
   createMarker = (marker) => {
@@ -62,6 +61,7 @@ class GoogleMapsContainer extends React.Component {
   }
 
   getYelpData(query){
+    this.setState({query: query})
     const proxyUrl = "https://shielded-hamlet-43668.herokuapp.com/";
     fetch(
         proxyUrl+
@@ -123,6 +123,15 @@ class GoogleMapsContainer extends React.Component {
         }
       >
 
+        <h1 style={{ position: 'absolute', bottom: '0', left: '86px', fontSize: '1.5em', zIndex: '99'}}>
+          Find the best 
+            <input className='random'
+            value={this.state.query} 
+            onChange={evt => this.updateQuery(evt.target.value)}
+            />
+          around Vicente de Carvalho
+        </h1>
+
         { this.state.places 
           ? this.state.places.map (
           (place, key) => (
@@ -173,7 +182,7 @@ class GoogleMapsContainer extends React.Component {
             </div>
         </InfoWindow>
 
-        <Filter {...this.state} centerMarker={(key, e) => this.centerMarker(key, e)} updateUserInput={(query) => this.updateQuery(query)}/>
+        <Filter {...this.state} centerMarker={(key, e) => this.centerMarker(key, e)} />
       </Map>
     );
   }

@@ -6,25 +6,18 @@ export class Filter extends React.Component {
 		super(props);
 		this.state = { query: ''}
 	}
-	updateInputValue(evt){
-		console.log(evt.target)
-		this.setState({ query: evt.target.value })
-		this.props.updateUserInput(evt.target.value)
-	}
 	render(){
 		return (
 			<div>
-				<input style={{position: 'absolute', top: '40px', left: 'calc(100% - 174px)'}} type="text" value={this.state.query} 
-				onChange={evt => this.updateInputValue(evt)} />
-				<ul style={{ background: 'black', position: 'absolute', bottom: '0px', width: '100vw',
-							 color: 'white', margin: 0, boxSizing: 'content-box', padding: 0, display: 'flex', 'flexWrap': 'wrap', 'listStyleType': 'none' }}>
+				<ul style={{ background: 'black', position: 'absolute', width: 'calc(143px * 2)', height: '100vh', display: 'flex', 'flexWrap': 'wrap',
+							 color: 'white', margin: 0, boxSizing: 'content-box',  padding: 0,  'listStyleType': 'none', left: 'calc(100% - 286px)' }}>
 					{ this.props.places ?
 						this.props.places.map(
 							(place, key) => (
 								<li key={key} 
 									className="applyHover"
 									onClick={(e) => {this.props.centerMarker(key, e)}}
-									style={{'flexBasis': '115px', padding: '10px', boxSizing: 'content-box' }}
+									style={{'flexBasis': '119px', padding: '10px', boxSizing: 'content-box' }}
 									id={key}
 								>
 									{place.name}

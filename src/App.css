@@ -20,6 +20,39 @@
   --heavy-grey: #3E5952;
   --brown: #3D2719;
 };
+@keyframes  random {
+    5% { color: var(--vibrant-violet); } 
+    10% { color: var(--opaque-yellow); } 
+    15% { color: var(--serious-blue); } 
+    20% { color: var(--happy-pink); } 
+    30% { color: var(--river-blue); } 
+    35% { color: var(--autumn-green); } 
+    40% { color: var(--opaque-black); } 
+    45% { color: var(--salmon); } 
+    50% { color: var(--midnight-blue); } 
+    55% { color: var(--opaque-orange); } 
+    65% { color: var(--adorable-blue); } 
+    70% { color: var(--cherry); } 
+    75% { color: var(--purple); } 
+    80% { color: var(--sand-yellow); } 
+    85% { color: var(--forest-green); } 
+    90% { color: var(--cheerful-pink); } 
+    95% { color: var(--sea-green); } 
+}
+.random{
+  color: #fff;
+  -webkit-animation: random 10s infinite;
+  animation: random 10s infinite;
+  font-size: 150%;
+  margin: 0 15px;
+  padding: 0 12px;
+  background: rgba(255, 255, 255, .6);
+  width: 130px;
+  border: none;
+  display: inline-block;
+  cursor: pointer;
+}
+
 .App {
   text-align: center;
 }
@@ -45,6 +78,9 @@
 
 .App-intro {
   font-size: large;
+}
+h1, input{
+  font-family: 'Lobster', cursive;
 }
 li{
   transition: color 0.25s;
@@ -87,69 +123,67 @@ li:hover::before, li:hover::after {
 li:nth-child(1){
   background: var(--vibrant-violet) ;
 }
-li:nth-child(2){
+li:nth-child(3){
   background: var(--opaque-yellow) ;
   color: #000;
 }
-li:nth-child(3){
+li:nth-child(5){
   background: var(--serious-blue) ;
 }
-li:nth-child(4){
+li:nth-child(7){
   background: var(--happy-pink) ;
 }
-li:nth-child(5){
+li:nth-child(9){
   background: var(--river-blue) ;
 }
-li:nth-child(6){
+li:nth-child(11){
   background: var(--autumn-green) ;
   color: #000;
 }
-li:nth-child(7){
+li:nth-child(13){
   background: var(--opaque-black) ;
 }
-li:nth-child(8){
+li:nth-child(15){
   background: var(--salmon) ;
   color: #000;
 }
-li:nth-child(9){
+li:nth-child(17){
   background: var(--midnight-blue) ;
 }
-li:nth-child(10){
-  background: var(--opaque-orange) ;
-  color: #000;
+li:nth-child(19){
+  background: var(--sea-green) ;
 }
-li:nth-child(11){
+li:nth-child(2){
   background: var(--adorable-blue) ;
   color: #000;
 }
-li:nth-child(12){
+li:nth-child(4){
   background: var(--cherry) ;
 }
-li:nth-child(13){
-  background: var(--purple) ;
+li:nth-child(6){
+
 }
-li:nth-child(14){
+li:nth-child(8){
   background: var(--forest-green) ;
 }
-li:nth-child(15){
+li:nth-child(10){
   background: var(--sand-yellow) ;
   color: #000;
 }
-li:nth-child(16){
-  background: var(--sea-green) ;
+li:nth-child(12){
+  background: var(--brown) ;
 }
-li:nth-child(17){
+li:nth-child(14){
   background: var(--cheerful-pink) ;
 }
-li:nth-child(18){
-  background: var(--darkened-salmon) ;
-  color: #000;
+li:nth-child(16){
+  background: var(--purple) ;
 }
-li:nth-child(19){
+li:nth-child(18){
   background: var(--heavy-grey) ;
 }
 li:nth-child(20){
-  background: var(--brown) ;
+  background: var(--opaque-orange) ;
 }
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
