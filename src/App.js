@@ -5,6 +5,11 @@ import update from 'immutability-helper';
 import axios from 'axios';
 import {Filter} from './Filter';
 import './App.css';
+import {whyDidYouUpdate} from 'why-did-you-update'
+
+if (process.env.NODE_ENV !== 'production') {
+  whyDidYouUpdate(React);
+}
 
 const APIKEY = "AIzaSyAMSLE6fujNqNvj7opx7S3URDb9z_w_HyI";
 
@@ -24,11 +29,14 @@ class GoogleMapsContainer extends React.Component {
       showingInfoWindow: false,
       activeMarker: {},
       selectedPlace: {},
-      places: []
+      places: [],
+      currentKey: null,
+      markers: []
     }
   }
 
   onMarkerClick = (props, marker, e) => {
+  //  e.stopPropagation();
     this.setState({
       selectedPlace: props,
       activeMarker: marker,
@@ -36,18 +44,17 @@ class GoogleMapsContainer extends React.Component {
     });
   }
 
-  centerMarker(key){
-    console.log(key)
-    console.log(this.state.places[key])
-    // this.setState({ 
-    //   showingInfoWindow: true,
-    // "activeMarker": update(this.state.activeMarker, { 
-    //       $set: {
-    //         'position' : { lat: this.state.places[key].coordinates.latitude, lng: this.state.places[key].coordinates.longitude }
-    //       } 
-    //  }) 
-    // })
-    console.log(this.state.selectedPlace)
+  centerMarker(key, e){
+    const arrMarkers = this.state.markers.find(
+      marker => marker.props.name === e.target.innerText
+    )
+    e.stopPropagation()
+    this.onMarkerClick(arrMarkers.props, arrMarkers.marker, e)
+    this.setState({currentKey: key, event: e})
+  }
+
+  createMarker = (marker) => {
+    if (marker !== null) this.state.markers.push(marker) 
   }
 
   componentDidMount(){
@@ -69,7 +76,7 @@ class GoogleMapsContainer extends React.Component {
     )
     .then(
        res => {
-        let results = res.json(); return results
+        let results = res.json();  return results
       }
     )
     .then(
@@ -121,52 +128,38 @@ class GoogleMapsContainer extends React.Component {
           (place, key) => (
               <Marker key={key}
                 onClick = { this.onMarkerClick }
-                title = { place.title }
+                ref={this.createMarker}
                 position = {{ lat: place.coordinates.latitude, lng: place.coordinates.longitude }}
                 name = { place.name }
+                id = { place.id }
                 visible={ true }
                 phone = { place.display_phone }
                 isClosed = { place.is_closed }
                 rating = { place.rating }
                 imageUrl = { place.image_url }
                 price = { place.price }
+                animation = { 
+                  this.state.activeMarker ? (place.id === this.state.activeMarker.id ? '1' : '0') : '0'
+                  //key == this.state.currentKey ? this.props.google.maps.Animation.BOUNCE : null
+                }
               >
-                <InfoWindow
-                  visible = { this.state.showingInfoWindow }>
-                  <h3>{place.name}</h3>
-                  { place.imageUrl 
-                    ? <img src={place.imageUrl} height='50'/>
-                    : null
-                  }
-                  <p>
-                    Price Range: { place.price ? place.price : "Not informed" }
-                  </p>
-                  <p>
-                    { place.isClosed ? "Probably Closed" : "Probably Open" }
-                  </p>
-                  <p>
-                    Rating: {place.rating ? place.rating : "None available. Go to yelp and be the first to rate!"}
-                  </p>
-                  <p>
-                    Phone Number: { place.phone ? place.phone : "Not provided"}
-                  </p>
-                </InfoWindow>
               </Marker>
             ) 
           ) 
           : null
         }      
 
-          <InfoWindow
-            marker = { this.state.activeMarker }
-            visible = { this.state.showingInfoWindow }>
+        <InfoWindow
+          marker = { this.state.activeMarker }
+          visible = { this.state.showingInfoWindow }>
+          <div>
             <h3>{this.state.activeMarker.name}</h3>
             { this.state.activeMarker.imageUrl 
               ? <img src={this.state.activeMarker.imageUrl} height='50'/>
               : null
             }
             <p>
-              Price Range: { this.state.activeMarker.price }
+              Price Range: { this.state.activeMarker.price ? this.state.activeMarker.price : "Not informed" }
             </p>
             <p>
               { this.state.activeMarker.isClosed ? "Probably Closed" : "Probably Open" }
@@ -177,9 +170,10 @@ class GoogleMapsContainer extends React.Component {
             <p>
               Phone Number: { this.state.activeMarker.phone ? this.state.activeMarker.phone : "Not provided"}
             </p>
-          </InfoWindow>
+            </div>
+        </InfoWindow>
 
-          <Filter {...this.state} centerMarker={(key) => this.centerMarker(key)} updateUserInput={(query) => this.updateQuery(query)}/>
+        <Filter {...this.state} centerMarker={(key, e) => this.centerMarker(key, e)} updateUserInput={(query) => this.updateQuery(query)}/>
       </Map>
     );
   }
