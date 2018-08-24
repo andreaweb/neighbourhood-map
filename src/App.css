@@ -91,7 +91,7 @@ h1, input{
   display: none;
   color: var(--purple); 
 }
-.menu:hover{
+.menu:hover, .menu:focus, .menu:active{
   color: var(--cherry); 
 }
 h1{

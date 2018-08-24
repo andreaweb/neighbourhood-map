@@ -114,6 +114,7 @@ class GoogleMapsContainer extends React.Component {
         initialCenter = {{ lat: -22.8544633, lng: -43.3160845 }}
         zoom = { 13 }
         disableDefaultUI = {true}
+        /* centers map when there's a click on a marker */
         center = { 
           this.state.activeMarker.position 
           ? this.state.activeMarker.position 
@@ -125,22 +126,24 @@ class GoogleMapsContainer extends React.Component {
         <h1>
           Find the best 
             <input className='random'
+            /*user changes query through this input*/
             value={ this.state.query }
             onChange={evt => this.updateQuery(evt.target.value)}
             />
           around Vicente de Carvalho
         </h1>
 
-        <button className="menu" onClick={this.toggleMenu}>
+        <button className="menu" /*show only if the screen is small enough*/ onClick={this.toggleMenu}>
           <i className="burger fa fa-bars"><span> Menu</span></i>
         </button>
 
+      { /* loop through places array as soon as it is populated and creates a marker for every place with its corresponding info */ }
         { this.state.places 
           ? this.state.places.map (
           (place, key) => (
               <Marker key={key}
                 onClick = { this.onMarkerClick }
-                ref={this.createMarker}
+                ref={ this.createMarker }
                 position = {{ lat: place.coordinates.latitude, lng: place.coordinates.longitude }}
                 name = { place.name }
                 id = { place.id }
@@ -152,7 +155,6 @@ class GoogleMapsContainer extends React.Component {
                 price = { place.price }
                 animation = { 
                   this.state.activeMarker ? (place.id === this.state.activeMarker.id ? '1' : '0') : '0'
-                  //key == this.state.currentKey ? this.props.google.maps.Animation.BOUNCE : null
                 }
               >
               </Marker>
@@ -161,12 +163,13 @@ class GoogleMapsContainer extends React.Component {
           : null
         }      
 
-        <InfoWindow
+        <InfoWindow /*shown when there's a click on a marker or its button on the List*/
           marker = { this.state.activeMarker }
           visible = { this.state.showingInfoWindow }>
           <div>
             <h3>{this.state.activeMarker.name}</h3>
-            { this.state.activeMarker.imageUrl 
+            { /*shows image if there is one*/
+              this.state.activeMarker.imageUrl 
               ? <img 
                 src={ this.state.activeMarker.imageUrl } 
                 alt=''
