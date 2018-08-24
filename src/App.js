@@ -8,6 +8,7 @@ if (process.env.NODE_ENV !== 'production') {
   whyDidYouUpdate(React);
 }
 
+//google maps key
 const APIKEY = "AIzaSyAMSLE6fujNqNvj7opx7S3URDb9z_w_HyI";
 
 class GoogleMapsContainer extends React.Component {
@@ -27,7 +28,7 @@ class GoogleMapsContainer extends React.Component {
     }
   }
 
-  onMarkerClick = (props, marker, e) => {
+  onMarkerClick = (props, marker, e) => { /*opens infowindow when there's a click on a marker or its button on the list*/
     this.setState({
       selectedPlace: props,
       activeMarker: marker,
@@ -35,7 +36,7 @@ class GoogleMapsContainer extends React.Component {
     });
   }
 
-  centerMarker(key, e){
+  centerMarker(key, e){ /* "clicks" on a marker by finding it through its id and comparing to the list's place's id */
     const arrMarkers = this.state.markers.find(
       marker => marker.props.id === e.target.id
     )
@@ -43,20 +44,25 @@ class GoogleMapsContainer extends React.Component {
     this.onMarkerClick(arrMarkers.props, arrMarkers.marker, e)
   }
 
-  createMarker = (marker) => {
-    if (marker !== null) this.state.markers.push(marker) 
+  createMarker = (marker) => { /*saves ref to markers so I can trigger click on a specific one later */
+    if (marker !== null) {
+      this.state.markers.push(marker) 
+    }
   }
 
   componentDidMount(){
+    /*Gets default data by searching for coffee*/
     this.getYelpData('coffee')
   }
 
+  /*hides and shows menu in mobile/small screens*/
   toggleMenu = () => {
     this.setState({ listVisible: this.state.listVisible ? false : true })
   }
 
   getYelpData(query){
     this.setState({query: query})
+    /* necessary to avoid CORS error */
     const proxyUrl = "https://shielded-hamlet-43668.herokuapp.com/";
     fetch(
         proxyUrl+
@@ -71,18 +77,17 @@ class GoogleMapsContainer extends React.Component {
     )
     .then(
        res => {
-        let results = res.json(); console.log(results); return results
+        let results = res.json(); return results
       }
     )
     .then(
       data => {
-        let mapData = data;
+        /*list will NOT be updated if there's no results*/
         if(data.businesses.length > 0){
           this.setState({ 
             "places": data.businesses
           })
         }
-        return mapData
       }
     )
     .catch(
@@ -90,8 +95,8 @@ class GoogleMapsContainer extends React.Component {
     )
   }
 
+  /*updates query according to user input*/
   updateQuery = (query) => {
-    console.log(query)
     this.getYelpData(query)
   }
   
@@ -113,7 +118,8 @@ class GoogleMapsContainer extends React.Component {
         google = { this.props.google }
         initialCenter = {{ lat: -22.8544633, lng: -43.3160845 }}
         zoom = { 13 }
-        disableDefaultUI = {true}
+        /*removes some distractions we're not gonna use */
+        disableDefaultUI = { true }
         /* centers map when there's a click on a marker */
         center = { 
           this.state.activeMarker.position 
