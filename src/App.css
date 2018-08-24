@@ -106,7 +106,7 @@ p {
 p:last-child{
   margin-bottom: 10px
 }
-.menu-list{
+.filtered-list{
   background: black; 
   position: absolute;
   width: calc(143px * 2);
@@ -120,7 +120,7 @@ p:last-child{
   list-style-type: none;
   left: calc(100% - 286px);
 }
-.menu-list:after{
+.filtered-list:after{
   content: "\f110";
   font-family: FontAwesome;
   position: absolute;
@@ -253,12 +253,12 @@ p:last-child{
   }
 }
 @media screen and (min-width: 601px){
-  .menu-list{
+  .filtered-list{
     display: flex !important;
   }
 }
 @media screen and (max-width: 600px){
-   .menu-list{
+   .filtered-list{
     width: 143px;
     left: calc(100% - 143px);
     overflow-x: scroll;
@@ -266,7 +266,7 @@ p:last-child{
   .menu{
     display: block;
   }
-  .menu-list{
+  .filtered-list{
     top: 46px;
   }
   .burger{
@@ -285,7 +285,7 @@ p:last-child{
   h1{
     bottom: 63px;
   }
-  .menu-list{
+  .filtered-list{
     left: calc(100% - 145px);
   }
   .gm-style .gm-style-iw{

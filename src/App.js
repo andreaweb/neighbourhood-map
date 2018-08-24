@@ -13,6 +13,7 @@ const APIKEY = "AIzaSyAMSLE6fujNqNvj7opx7S3URDb9z_w_HyI";
 class GoogleMapsContainer extends React.Component {
   constructor(props) {
     super(props);
+    //yelp key
     this.apiKey = '4ttyzAYKbHywtXGvfj9gqk0suytrz7YM0-d7BfHJOKFAYgb2BAPzd_-o-JWIFiIm3azIrmRkX5pvZ2wGd3fLzb36YP9BJIHxVjkGvgsVSBpsoofvy35JMCEDXsF-W3Yx'; //yelp
     this.state = {
       showingInfoWindow: false,
@@ -27,7 +28,6 @@ class GoogleMapsContainer extends React.Component {
   }
 
   onMarkerClick = (props, marker, e) => {
-  //  e.stopPropagation();
     this.setState({
       selectedPlace: props,
       activeMarker: marker,
@@ -53,7 +53,6 @@ class GoogleMapsContainer extends React.Component {
 
   toggleMenu = () => {
     this.setState({ listVisible: this.state.listVisible ? false : true })
-    //need to make sure - perhaps not here - that if the burger icon is not showing (above a certain width), listVisible is true
   }
 
   getYelpData(query){
@@ -115,7 +114,7 @@ class GoogleMapsContainer extends React.Component {
         initialCenter = {{ lat: -22.8544633, lng: -43.3160845 }}
         zoom = { 13 }
         disableDefaultUI = {true}
-        
+        role="application"
       >
 
         <h1>
@@ -183,8 +182,8 @@ class GoogleMapsContainer extends React.Component {
             <p>
               Phone Number: { this.state.activeMarker.phone ? this.state.activeMarker.phone : "Not provided"}
             </p>
-            <span>All places' info are provided by Yelp</span>
-            </div>
+            <span style={{fontStyle: 'italic', fontSize: '80%'}}>All places' info are provided by Yelp</span>
+          </div>
         </InfoWindow>
 
         <List {...this.state} visible={this.state.listVisible} centerMarker={(key, e) => this.centerMarker(key, e)} />
