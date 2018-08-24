@@ -9,8 +9,7 @@ export class Filter extends React.Component {
 	render(){
 		return (
 			<div>
-				<ul style={{ background: 'black', position: 'absolute', width: 'calc(143px * 2)', height: '100vh', display: 'flex', 'flexWrap': 'wrap',
-							 color: 'white', margin: 0, boxSizing: 'content-box',  padding: 0,  'listStyleType': 'none', left: 'calc(100% - 286px)' }}>
+				<ul style={ this.props.visible ? {display: "block"}  : {display: "none"}  }>
 					{ this.props.places ?
 						this.props.places.map(
 							(place, key) => (

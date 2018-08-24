@@ -31,7 +31,8 @@ class GoogleMapsContainer extends React.Component {
       selectedPlace: {},
       places: [],
       currentKey: null,
-      markers: []
+      markers: [],
+      listVisible: true
     }
   }
 
@@ -58,6 +59,10 @@ class GoogleMapsContainer extends React.Component {
 
   componentDidMount(){
     this.getYelpData('coffee')
+  }
+
+  toggleMenu = () => {
+    this.setState({ listVisible: this.state.listVisible ? false : true })
   }
 
   getYelpData(query){
@@ -123,7 +128,7 @@ class GoogleMapsContainer extends React.Component {
         }
       >
 
-        <h1 style={{ position: 'absolute', bottom: '0', left: '86px', fontSize: '1.5em', zIndex: '99'}}>
+        <h1>
           Find the best 
             <input className='random'
             value={this.state.query} 
@@ -131,6 +136,10 @@ class GoogleMapsContainer extends React.Component {
             />
           around Vicente de Carvalho
         </h1>
+
+        <button onClick={this.toggleMenu}>
+          <i className="burger fa fa-bars"><span> Menu</span></i>
+        </button>
 
         { this.state.places 
           ? this.state.places.map (
@@ -182,7 +191,7 @@ class GoogleMapsContainer extends React.Component {
             </div>
         </InfoWindow>
 
-        <Filter {...this.state} centerMarker={(key, e) => this.centerMarker(key, e)} />
+        <Filter {...this.state} visible={this.state.listVisible} centerMarker={(key, e) => this.centerMarker(key, e)} />
       </Map>
     );
   }
