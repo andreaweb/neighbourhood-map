@@ -1,8 +1,8 @@
 import React from 'react';
 import { GoogleApiWrapper, InfoWindow, Map, Marker } from 'google-maps-react';
-import {List} from './List';
+import { List } from './List';
 import './App.css';
-import {whyDidYouUpdate} from 'why-did-you-update'
+import { whyDidYouUpdate } from 'why-did-you-update'
 
 if (process.env.NODE_ENV !== 'production') {
   whyDidYouUpdate(React);
