@@ -28,7 +28,8 @@ class GoogleMapsContainer extends React.Component {
     }
   }
 
-  onMarkerClick = (props, marker, e) => { /*opens infowindow when there's a click on a marker or its button on the list*/
+  onMarkerClick = (props, marker, e) => { 
+    /*opens infowindow when there's a click on a marker or its button on the list*/
     this.setState({
       selectedPlace: props,
       activeMarker: marker,
@@ -36,7 +37,8 @@ class GoogleMapsContainer extends React.Component {
     });
   }
 
-  centerMarker(key, e){ /* "clicks" on a marker by finding it through its id and comparing to the list's place's id */
+  centerMarker(key, e){ 
+    /* "clicks" on a marker by finding it through its id and comparing to the list's place's id */
     const arrMarkers = this.state.markers.find(
       marker => marker.props.id === e.target.id
     )
@@ -44,7 +46,8 @@ class GoogleMapsContainer extends React.Component {
     this.onMarkerClick(arrMarkers.props, arrMarkers.marker, e)
   }
 
-  createMarker = (marker) => { /*saves ref to markers so I can trigger click on a specific one later */
+  createMarker = (marker) => { 
+    /*saves ref to markers so I can trigger click on a specific one later */
     if (marker !== null) {
       this.state.markers.push(marker) 
     }
@@ -66,12 +69,14 @@ class GoogleMapsContainer extends React.Component {
     const proxyUrl = "https://shielded-hamlet-43668.herokuapp.com/";
     fetch(
         proxyUrl+
-        'https://api.yelp.com/v3/businesses/search?term='+query+'&latitude=-22.8544633&longitude=-43.3160845',
+        'https://api.yelp.com/v3/businesses/search?term='
+        +query+
+        '&latitude=-22.8544633&longitude=-43.3160845',
         { 
           method: 'GET',
           headers: { 
             Authorization: 
-            'Bearer 4ttyzAYKbHywtXGvfj9gqk0suytrz7YM0-d7BfHJOKFAYgb2BAPzd_-o-JWIFiIm3azIrmRkX5pvZ2wGd3fLzb36YP9BJIHxVjkGvgsVSBpsoofvy35JMCEDXsF-W3Yx' 
+            'Bearer '+this.apiKey 
           } 
         }
     )
@@ -139,7 +144,10 @@ class GoogleMapsContainer extends React.Component {
           around Vicente de Carvalho
         </h1>
 
-        <button className="menu" /*show only if the screen is small enough*/ onClick={this.toggleMenu}>
+        <button 
+          className="menu" /*show only if the screen is small enough*/ 
+          onClick={this.toggleMenu}
+        >
           <i className="burger fa fa-bars"><span> Menu</span></i>
         </button>
 
@@ -150,7 +158,10 @@ class GoogleMapsContainer extends React.Component {
               <Marker key={key}
                 onClick = { this.onMarkerClick }
                 ref={ this.createMarker }
-                position = {{ lat: place.coordinates.latitude, lng: place.coordinates.longitude }}
+                position = 
+                {{ lat: place.coordinates.latitude, 
+                  lng: place.coordinates.longitude 
+                }}
                 name = { place.name }
                 id = { place.id }
                 visible={ true }
@@ -160,7 +171,9 @@ class GoogleMapsContainer extends React.Component {
                 imageUrl = { place.image_url }
                 price = { place.price }
                 animation = { 
-                  this.state.activeMarker ? (place.id === this.state.activeMarker.id ? '1' : '0') : '0'
+                  this.state.activeMarker 
+                  ? (place.id === this.state.activeMarker.id ? '1' : '0') 
+                  : '0'
                 }
               >
               </Marker>
@@ -179,28 +192,53 @@ class GoogleMapsContainer extends React.Component {
               ? <img 
                 src={ this.state.activeMarker.imageUrl } 
                 alt=''
-                /*since I am not be able to provide a helpful description, it's better to leave it empty, as just the place name would be repetitive and inconvenient*/ 
+                /*since I am not be able to provide a helpful description,
+                it's better to leave it empty, 
+                as just the place name would be repetitive and inconvenient*/ 
                 height='50'
                 />
               : null
             }
             <p>
-              Price Range: { this.state.activeMarker.price ? this.state.activeMarker.price : "Not informed" }
+              Price Range: { 
+                this.state.activeMarker.price 
+                ? this.state.activeMarker.price 
+                : "Not informed" 
+              }
             </p>
             <p>
-              { this.state.activeMarker.isClosed ? "Probably Closed" : "Probably Open" }
+              { 
+                this.state.activeMarker.isClosed 
+                ? "Probably Closed" 
+                : "Probably Open" 
+              }
             </p>
             <p>
-              Rating: {this.state.activeMarker.rating ? this.state.activeMarker.rating : "None available. Go to yelp and be the first to rate!"}
+              Rating: {
+                this.state.activeMarker.rating 
+                ? this.state.activeMarker.rating 
+                : "None available. Go to yelp and be the first to rate!"
+              }
             </p>
             <p>
-              Phone Number: { this.state.activeMarker.phone ? this.state.activeMarker.phone : "Not provided"}
+              Phone Number: { 
+                this.state.activeMarker.phone 
+                ? this.state.activeMarker.phone 
+                : "Not provided"
+              }
             </p>
-            <span style={{fontStyle: 'italic', fontSize: '80%'}}>All places' info are provided by Yelp</span>
+            <span 
+              style={{fontStyle: 'italic', fontSize: '80%'}}
+            >
+              All places' info are provided by Yelp
+            </span>
           </div>
         </InfoWindow>
 
-        <List {...this.state} visible={this.state.listVisible} centerMarker={(key, e) => this.centerMarker(key, e)} />
+        <List {...this.state} 
+          visible={this.state.listVisible} 
+          centerMarker={(key, e) => this.centerMarker(key, e)} 
+        />
       </Map>
     );
   }
