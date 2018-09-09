@@ -1,5 +1,9 @@
 # Udacity's Advanced Front-End Final Project: Neighbourhood App
 
+## Check it out!
+https://andreaweb.github.io/neighbourhood-map/
+![Print](public/map.jpg)
+
 ## Install and Run
 
 * Install dependencies with `npm install`
